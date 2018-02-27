@@ -1,5 +1,5 @@
 /* jquery.pointparallax
- -- version 1.0.0
+ -- version 1.0.1
  -- copyright 2018-02-28 BlackSiriuS*2018
  -- licensed under the GNU
  --
@@ -16,7 +16,7 @@
                     position: null,
                     autoheight: false,
                     autoheightClass: 'pointparallax-autoheight',
-                    stoppedClass: 'pointparallax-stopped',
+                    fixedClass: 'pointparallax-fixed',
                     point: 'center',
                     path: 100,
                     startfrom: 0,
@@ -183,7 +183,7 @@
                     progress = 1;
                 $items.each(function (index) {
                     var $item = $(this);
-                    if ($item.hasClass(s.stoppedClass))
+                    if ($item.hasClass(s.fixedClass))
                         return;
                     var $item_point = parse_Position($item.data('point') || point),
                             $item_path = ($item.data('path') || path) / 100,
