@@ -19,7 +19,6 @@
                     fixedClass: 'pointparallax-fixed',
                     point: 'center',
                     path: 100,
-                    startfrom: 0,
                 },
                 s = $.extend(true, {}, sd, so),
                 parse_Float = function (value) {
