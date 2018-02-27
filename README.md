@@ -20,7 +20,7 @@ Put loading script tag after jquery script tag and loading:
 * HOW TO USE
 
 ## CONFIGURATION PARAMETERS
-When you call "niceScroll" you can pass some parameters to custom visual aspects:
+When you call "PointParallax" you can pass some parameters to custom visual aspects:
 ```javascript
 ```
 ## CONFIGURATION ATTRIBUTES
