@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>jQuery PointParallax</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <style>
+            .container-fluid {
+            }
+            .pointparallax{
+                position: relative;
+                background: #eee;
+                width: 100%;
+                height: 900px;
+            }
+            .pointparallax .point__item {
+                position: absolute;
+            }
+            .pointparallax .point__item.left {
+                top: 0;
+                left: 0;
+                z-index: 9;
+                width: 478px;
+                height: 478px;
+                background-color: red;
+            }
+            .pointparallax .point__item.center {
+                width: 891px;
+                height: 637px;
+                background-color: blue;
+            }
+            .pointparallax .point__item.right {
+                top: 50px;
+                right: 0;
+                z-index: 10;
+                width: 410px;
+                height: 605px;
+                background-color: green;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="pointparallax">
+                <div class="point__item left"></div>
+                <div class="point__item center" data-position="center"></div>
+                <div class="point__item right"></div>
+            </div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="../dist/jquery.pointparallax.js"></script>
+
+        <script>
+            jQuery(function ($) {
+                $('.pointparallax').css({
+                    'margin-top': $(window).height() * 1.2,
+                    'margin-bottom': $(window).height() * 1.2,
+                }).html();
+
+
+                $('.pointparallax').pointparallax();
+                //$('#pointparallax-3').pointparallax();
+            });
+        </script>
+    </body>
+</html>

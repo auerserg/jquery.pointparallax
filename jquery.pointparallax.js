@@ -1,24 +1,17 @@
+/* jquery.pointparallax
+ -- version 1.0.0
+ -- copyright 2018-02-28 BlackSiriuS*2018
+ -- licensed under the GNU
+ --
+ -- https://github.com/BlackSiriuS/jquery.pointparallax
+ --
+ */
 (function ($) {
     $.fn.pointparallax = function (so) {
         var so = so || {},
                 sd = {
                     itemsSelector: '.point__item',
-                    items: {
-                        '.point__item_1': {
-                            position: 'left-bottom',
-                            path: 80,
-                            point: '0-0',
-                        },
-                        '.point__item_2': {
-                            path: 20,
-                            point: '0-50',
-                        },
-                        '.point__item_3': {
-                            position: 'right-top',
-                            path: 100,
-                            point: '100-100',
-                        }
-                    },
+                    items: {},
                     itemIncludeMargin: false,
                     position: null,
                     autoheight: false,
@@ -78,6 +71,8 @@
                     $items = $this.find(s.itemsSelector);
             if (s.autoheight)
                 $this.addClass(s.autoheightClass);
+            if (s.fullshow)
+                $this.addClass(s.fullshowClass);
             if ($this.data('point'))
                 $this.data('point', parse_Position($this.data('point')));
 
@@ -103,36 +98,32 @@
 
             $this.off('autoheight.pointparallax').on('autoheight.pointparallax', function (event, settings) {
                 var settings = settings || s,
-                        height_max = 0;
+                        max = 0;
                 $items.each(function () {
-                    height_max = Math.max(height_max, $(this).outerHeight(settings.itemIncludeMargin) + (!$(this).data('position') ? $(this).position().top : 0));
+                    max = Math.max(max, $(this).outerHeight(settings.itemIncludeMargin) + (!$(this).data('position') ? $(this).position().top : 0));
                 });
 
-                $this.height(height_max);
+                $this.height(max);
             }).off('minsize.pointparallax').on('minsize.pointparallax', function (event, settings) {
                 var settings = settings || s,
-                        height_max = 0,
-                        width_max = 0,
+                        max = [0, 0],
                         $this = $(this),
                         $this_padding = parse_Float($this.css(['padding-top', 'padding-right', 'padding-bottom', 'padding-left'])),
                         $this_padding = [$this_padding['padding-right'] + $this_padding['padding-left'], $this_padding['padding-top'] + $this_padding['padding-bottom']];
                 $items.each(function () {
-                    height_max = Math.max(height_max, $(this).outerHeight(settings.itemIncludeMargin) + $this_padding[1]);
-                    width_max = Math.max(width_max, $(this).outerWidth(settings.itemIncludeMargin) + $this_padding[0]);
+                    max[0] = Math.max(max[0], $(this).outerWidth(settings.itemIncludeMargin) + $this_padding[0]);
+                    max[1] = Math.max(max[1], $(this).outerHeight(settings.itemIncludeMargin) + $this_padding[1]);
                 });
                 $this.css({
-                    'min-width': width_max,
-                    'min-height': height_max,
+                    'min-width': max[0],
+                    'min-height': max[1],
                 });
 
             }).off('position.pointparallax').on('position.pointparallax', function (event, settings) {
                 var settings = settings || s,
                         $this = $(this),
-                        $this_w = $this.width(),
-                        $this_h = $this.height(),
-                        $this_padding = parse_Float($this.css(['padding-top', 'padding-right', 'padding-bottom', 'padding-left'])),
-                        $this_w = $this_w - $this_padding['padding-right'] - $this_padding['padding-left'],
-                        $this_h = $this_h - $this_padding['padding-top'] - $this_padding['padding-bottom'],
+                        $this_size = [$this.width(), $this.height()],
+                        $this_padding = parse_Float($this.css(['padding-top', 'padding-left'])),
                         $this_padding = [$this_padding['padding-left'], $this_padding['padding-top']];
                 $items.each(function () {
                     var $item = $(this),
@@ -142,10 +133,9 @@
                     position = parse_Position(position);
                     $item.data('position', position);
                     var _position = [],
-                            $item_w = $item.outerWidth(settings.itemIncludeMargin),
-                            $item_h = $item.outerHeight(settings.itemIncludeMargin);
-                    _position[0] = $this_padding[0] + ($this_w - $item_w) * position[0];
-                    _position[1] = $this_padding[1] + ($this_h - $item_h) * position[1];
+                            $item_size = [$item.outerWidth(settings.itemIncludeMargin), $item.outerHeight(settings.itemIncludeMargin)];
+                    for (var i = 0; i < 2; i++)
+                        _position[i] = $this_padding[i] + ($this_size[i] - $item_size[i]) * position[i];
                     $item.css({
                         left: _position[0],
                         top: _position[1]
@@ -157,7 +147,7 @@
                     $this.trigger('autoheight.pointparallax', settings);
                 }
                 $this.trigger('minsize.pointparallax', settings).trigger('position.pointparallax', settings);
-                //requestAnimationFrame(update);
+                requestAnimationFrame(update);
             }).off('scroll.pointparallax').on('scroll.pointparallax', function (event, settings) {
                 var settings = settings || s,
                         progress = {
@@ -168,9 +158,9 @@
                         };
                 if (progress.wst + progress.wh + 20 < progress.tot || progress.tot + progress.toh + 20 < progress.wst)
                     return;
-                //requestAnimationFrame(update);
+                requestAnimationFrame(update);
                 progress = (progress.wst - progress.tot + progress.wh) / (progress.wh + progress.toh);
-                $this.trigger('update.pointparallax', progress, s);
+                $this.trigger('update.pointparallax', progress, s, $items);
             }).off('init.pointparallax').on('init.pointparallax', function (event, settings) {
                 $this.trigger('resize.pointparallax', settings).trigger('inited.pointparallax', settings);
             });
@@ -181,9 +171,12 @@
                     tot: $this.offset().top,
                     toh: $this.outerHeight(),
                 },
-                        progress = (progress.wst - progress.tot + progress.wh) / (progress.wh + progress.toh),
                         point = $this.data('point') || s.point,
-                        path = $this.data('path') || s.path;
+                        path = $this.data('path') || s.path,
+                        $this_padding = parse_Float($this.css(['padding-top', 'padding-left'])),
+                        $this_padding = [$this_padding['padding-left'], $this_padding['padding-top']],
+                        $this_size = [$this.width(), $this.height()];
+                progress = (progress.wst - progress.tot + progress.wh) / (progress.wh + progress.toh);
                 if (0 > progress)
                     progress = 0;
                 if (1 < progress)
@@ -196,18 +189,16 @@
                             $item_path = ($item.data('path') || path) / 100,
                             $item_position = $item.position(),
                             $item_position = [$item_position.left, $item_position.top],
+                            $item_size = [$item.outerWidth(s.itemIncludeMargin), $item.outerHeight(s.itemIncludeMargin)],
                             translate = [];
-                    $item_point[0] *= $this.width();
-                    $item_point[1] *= $this.height();
-                    $item_position[0] += $item.outerWidth(s.itemIncludeMargin) / 2;
-                    $item_position[1] += $item.outerHeight(s.itemIncludeMargin) / 2;
-                    translate[0] = ($item_point[0] - $item_position[0]) * $item_path * progress;
-                    translate[1] = ($item_point[1] - $item_position[1]) * $item_path * progress;
+                    for (var i = 0; i < 2; i++) {
+                        $item_point[i] = $item_point[i] * ($this_size[i] - $item_size[i]) + $this_padding[i];
+                        translate[i] = ($item_point[i] - $item_position[i]) * $item_path * progress;
+                    }
+
                     $item.css('transform', 'translate3d(' + translate[0] + 'px, ' + translate[1] + 'px, 0)');
                 });
             }
-
-
 
             $(window).on('resize', function (event) {
                 $this.trigger('resize.pointparallax', s);

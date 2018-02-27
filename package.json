@@ -1,0 +1,60 @@
+{
+    "name": "jquery.pointparallax",
+    "version": "1.0.0",
+    "bugs": "https://github.com/BlackSiriuS/jquery.pointparallax/issues",
+    "repository": {
+        "type": "git",
+	"url": "git@github.com:BlackSiriuS/jquery.pointparallax.git"
+    },
+    "title": "jQuery.PointParallax",
+    "author": {
+        "name": "BlackSiriuS",
+	"url": "https://github.com/BlackSiriuS"
+    },
+	"license": "GNU",
+    "autoupdate": {
+        "source": "git",
+        "target": "git://github.com/BlackSiriuS/jquery.pointparallax.git",
+        "basePath": "dist",
+        "files": [
+          "**/*"
+        ]
+    },
+    "description": "PointParallax is a jquery plugin for pleasantly displacing certain elements to certain points. It supports padding block and margin elements. It does not require the description of styles for elements. Compatible with modern browsers Chrome / Firefox / Edge / Safari, some limitations may exist.",
+    "keywords": [
+        "pointparallax",
+        "parallax",
+        "animation",
+        "scroll",
+	"jquery",
+	"jquery-plugin",
+	"ecosystem:jquery",
+	"window",
+	"dom",
+	"div",
+	"desktop",
+	"chrome",
+	"firefox"
+    ],
+    "homepage": "https://github.com/BlackSiriuS/jquery.pointparallax",
+    "contributors": [
+        "BlackSiriuS"
+    ],
+    "files": [
+        "dist/jquery.pointparallax.js",
+	"dist/jquery.pointparallax.min.js"
+    ],
+    "main": "jquery.pointparallax.js",
+    "dependencies": {
+        "jquery": ">=1.8.3"
+    },
+    "npmName": "jquery.pointparallax",
+    "npmFileMap": [
+        {
+            "basePath": "/dist/",
+            "files": [
+                "*.js",
+            ]
+        }
+    ]
+}
