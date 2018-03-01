@@ -20,6 +20,7 @@
                 point: 'center',
                 path: 100,
                 easing: 'linear',
+                stoponpoint: true,
             },
             s = $.extend( true, { }, sd, so ),
             parse_Float = function ( value ) {
@@ -174,6 +175,7 @@
                     point = $this.data( 'point' ) || s.point,
                     path = $this.data( 'path' ) || s.path,
                     easing = $this.data( 'easing' ) || s.easing,
+                    stoponpoint = s.stoponpoint,
                     $this_padding = parse_Float( $this.css( [ 'padding-top', 'padding-left' ] ) ),
                     $this_padding = [ $this_padding['padding-left'], $this_padding['padding-top'] ],
                     $this_size = [ $this.width(), $this.height() ],
@@ -202,15 +204,21 @@
                         $item_position = parse_Float( $item.css( [ 'left', 'top' ] ) ),
                         $item_position = [ $item_position.left, $item_position.top ],
                         $item_size = [ $item.outerWidth( s.itemIncludeMargin ), $item.outerHeight( s.itemIncludeMargin ) ],
-                        translate = [ ];
+                        translate = [ ],
+                        $item_path_progress;
                     if ( 'string' === typeof $item_easing ) {
                         if ( 'function' === typeof jQuery.easing[ $item_easing ] ) {
-                            progress = jQuery.easing[ $item_easing ]( progress );
+                            progress = jQuery.easing[ $item_easing ]( _progress );
                         }
                     }
+                    $item_path_progress = $item_path * progress;
+                    if ( stoponpoint && 1 < $item_path_progress ) {
+                        $item_path_progress = 1;
+                    }
+
                     for ( var i = 0; i < 2; i++ ) {
                         $item_point[i] = $item_point[i] * ( $this_size[i] - $item_size[i] ) + $this_padding[i];
-                        translate[i] = ( $item_point[i] - $item_position[i] ) * $item_path * progress;
+                        translate[i] = ( $item_point[i] - $item_position[i] ) * $item_path_progress;
                     }
 
                     $item.css( 'transform', 'translate3d(' + translate[0] + 'px, ' + translate[1] + 'px, 0)' );
