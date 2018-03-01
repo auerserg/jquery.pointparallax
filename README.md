@@ -1,5 +1,5 @@
 # jQuery.PointParallax
-v. 1.0.1 
+v. 1.0.2 
 
 PointParallax is a jquery plugin for pleasantly displacing certain elements to certain points. It supports padding block and margin elements. It does not require the description of styles for elements. Compatible with modern browsers Chrome / Firefox / Edge / Safari, some limitations may exist.
 
@@ -39,6 +39,7 @@ $('.pointparallax').pointparallax({
     fixedClass: 'pointparallax-fixed', // Class for blocking the movement of an element. Does not affect the positioning.
     point: 'center', // The default point to which all the elements move. Default: center.
     path: 100, // The amount of path that must pass the elements to the control point. Default: Full path.
+    easing: 'linear', // A string indicating which easing function to use for the transition.
 });
 ```
 ## CONFIGURATION ATTRIBUTES
@@ -48,6 +49,7 @@ For the main element:
 class="pointparallax"
 data-point="center" <!-- The default point to which all the elements move. Default: center. -->
 data-path="100" <!-- The amount of path that must pass the elements to the control point. Default: Full path. -->
+data-easing="linear" <!-- A string indicating which easing function to use for the transition. -->
 >
 </div>
 ```
@@ -58,6 +60,7 @@ class="point__item"
 data-position="" <!-- The default item position. Does not consider positioning by styles. -->
 data-point="center" <!-- The default point to which all the elements move. Default: center. -->
 data-path="100" <!-- The amount of path that must pass the elements to the control point. Default: Full path. -->
+data-easing="linear" <!-- A string indicating which easing function to use for the transition. -->
 >
 </div>
 ```

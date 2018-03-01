@@ -12,8 +12,6 @@
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
         <style>
-            .container-fluid {
-            }
             .pointparallax{
                 position: relative;
                 background: #eee;
@@ -30,11 +28,20 @@
                 width: 478px;
                 height: 478px;
                 background-color: red;
+                opacity: .8;
             }
             .pointparallax .point__item.center {
                 width: 891px;
                 height: 637px;
                 background-color: blue;
+            }
+
+            .pointparallax .point__item.center-bottom {
+                width: 200px;
+                height: 100px;
+                z-index: 15;
+                background-color: yellow;
+                opacity: .8;
             }
             .pointparallax .point__item.right {
                 top: 50px;
@@ -43,15 +50,17 @@
                 width: 410px;
                 height: 605px;
                 background-color: green;
+                opacity: .8;
             }
         </style>
     </head>
     <body>
         <div class="container-fluid">
             <div class="pointparallax">
-                <div class="point__item left"></div>
+                <div class="point__item left" data-position="left-top"></div>
                 <div class="point__item center pointparallax-fixed" data-position="center"></div>
-                <div class="point__item right"></div>
+                <div class="point__item center-bottom" data-position="center-bottom" data-point="center-top" data-path="200"></div>
+                <div class="point__item right" data-position="right-bottom" data-point="center-top"></div>
             </div>
         </div>
 
@@ -60,14 +69,14 @@
         <script src="../dist/jquery.pointparallax.js"></script>
 
         <script>
-            jQuery(function ($) {
-                $('.pointparallax').css({
-                    'margin-top': $(window).height() * 1.2,
-                    'margin-bottom': $(window).height() * 1.2,
-                }).html();
+            jQuery( function ( $ ) {
+                $( '.pointparallax' ).css( {
+                    'margin-top': $( window ).height() * 1.2,
+                    'margin-bottom': $( window ).height() * 1.2,
+                } ).html();
 
-                $('.pointparallax').pointparallax();
-            });
+                $( '.pointparallax' ).pointparallax();
+            } );
         </script>
     </body>
 </html>
