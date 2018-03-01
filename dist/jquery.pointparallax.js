@@ -205,16 +205,14 @@
                         translate = [ ];
                     if ( 'string' === typeof $item_easing ) {
                         if ( 'function' === typeof jQuery.easing[ $item_easing ] ) {
-                            progress = jQuery.easing[ $item_easing ]( _progress );
+                            progress = jQuery.easing[ $item_easing ]( progress );
                         }
                     }
-
-                    console.info( $item_position );
                     for ( var i = 0; i < 2; i++ ) {
                         $item_point[i] = $item_point[i] * ( $this_size[i] - $item_size[i] ) + $this_padding[i];
                         translate[i] = ( $item_point[i] - $item_position[i] ) * $item_path * progress;
                     }
-                    console.info( progress, translate );
+
                     $item.css( 'transform', 'translate3d(' + translate[0] + 'px, ' + translate[1] + 'px, 0)' );
                 } );
             }

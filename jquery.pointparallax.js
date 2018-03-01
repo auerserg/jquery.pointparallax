@@ -199,7 +199,7 @@
                     var $item_point = parse_Position( $item.data( 'point' ) || point ),
                         $item_path = ( $item.data( 'path' ) || path ) / 100,
                         $item_easing = $item.data( 'easing' ),
-                        $item_position = $item.position(),
+                        $item_position = parse_Float( $item.css( [ 'left', 'top' ] ) ),
                         $item_position = [ $item_position.left, $item_position.top ],
                         $item_size = [ $item.outerWidth( s.itemIncludeMargin ), $item.outerHeight( s.itemIncludeMargin ) ],
                         translate = [ ];
