@@ -196,7 +196,7 @@
 
                 $items.each( function ( index ) {
                     var $item = $( this );
-                    if ( $item.hasClass( s.fixedClass ) )
+                    if ( $item.hasClass( s.fixedClass ) || $item.data( 'fixed' ) )
                         return;
                     var $item_point = parse_Position( $item.data( 'point' ) || point ),
                         $item_path = ( $item.data( 'path' ) || path ) / 100,
